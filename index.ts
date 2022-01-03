@@ -37,11 +37,32 @@ client.on('ready', () => {
     }, {
         name: 'Utility',
         emoji: '🛠️'
+    },{
+        name: 'Economy',
+        emoji: '💸'
     }])
     
 })
 
 
+const CurrencySystem = require('currency-system')
+const cs = new CurrencySystem;
+
+CurrencySystem.cs
+    .on('debug', (debug, error) => {
+        console.log(debug);
+        if (error) console.error(error);
+    })
+    .on('userFetch', (user, functionName) => {
+        console.log(`( ${functionName} ) Fetched User:  ${client?.users?.cache?.get(user?.userID).tag}`); //@ts-ignore
+    })
+    .on('userUpdate', (oldData, newData) => {
+        console.log('User Updated: ' + client.users.cache.get(newData.userID).tag); //@ts-ignore
+    });
+
+    cs.setMongoURL(config.mongoString);
+    cs.setDefaultBankAmount(1000);
+    cs.setDefaultWalletAmount(1000)
 
 
 
@@ -49,6 +70,10 @@ client.on('ready', () => {
 
 
 
+
+
+
+export { cs }
 
 
 
